@@ -16,7 +16,9 @@ export default function RootLayout({
   return (
     <>
       <AdminNavbar />
+    <div className="mx-auto px-2 sm:px-6 lg:px-8">
       {children}
+    </div>
     </>
   );
 }
