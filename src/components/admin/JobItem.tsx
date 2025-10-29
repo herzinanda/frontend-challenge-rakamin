@@ -46,9 +46,9 @@ const JobItem: React.FC<JobPosting> = ({
   max_salary,
 }) => {
   const statusClasses = {
-    Active: 'bg-success-surface text-success-main border border-success-border',
-    Inactive: 'bg-danger-surface text-danger-main border border-danger-border',
-    Draft: 'bg-warning-surface text-warning-main border border-warning-border',
+    ACTIVE: 'bg-success-surface text-success-main border border-success-border',
+    INACTIVE: 'bg-danger-surface text-danger-main border border-danger-border',
+    DRAFT: 'bg-warning-surface text-warning-main border border-warning-border',
   };
 
   const formattedDate = formatDate(created_at);

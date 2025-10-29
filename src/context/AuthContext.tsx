@@ -1,16 +1,20 @@
 "use client";
 
-import React, { 
-  createContext, 
-  useContext, 
-  useState, 
-  useEffect, 
-  ReactNode 
-} from 'react';
-import { supabase } from '../lib/supabaseClient'; // Pastikan path ini benar
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { supabase } from "../lib/supabaseClient"; // Pastikan path ini benar
 
-import { Session } from '@supabase/supabase-js';
-import { getUserProfile, onAuthStateChange, UserProfile } from '@/lib/authService';
+import { Session } from "@supabase/supabase-js";
+import {
+  getUserProfile,
+  onAuthStateChange,
+  UserProfile,
+} from "@/lib/authService";
 
 interface AuthContextType {
   session: Session | null;
@@ -33,9 +37,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchInitialSession = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         setSession(session);
-        
+
         if (session) {
           const userProfile = await getUserProfile(session.user.id);
           setProfile(userProfile);
@@ -46,12 +52,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setLoading(false);
       }
     };
-    
+
     fetchInitialSession();
 
-    const { data: authListener } = onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription: authListener },
+    } = onAuthStateChange((_event, session) => {
       setSession(session);
-      
+
       if (session) {
         getUserProfile(session.user.id).then(setProfile);
       } else {
@@ -60,7 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => {
-      authListener?.subscription.unsubscribe();
+      authListener?.unsubscribe();
     };
   }, []);
 
@@ -68,7 +76,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     session,
     profile,
     loading,
-    isAdmin: profile?.role === 'ADMIN',
+    isAdmin: profile?.role === "ADMIN",
   };
 
   return (
@@ -85,7 +93,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

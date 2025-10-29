@@ -5,7 +5,11 @@ import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import { JobOpeningForm } from "./JobOpeningForm";
 
-const CreateJobCard = () => {
+interface CreateJobCardProps {
+  onJobCreated: () => void;
+}
+
+const CreateJobCard: React.FC<CreateJobCardProps> = ({ onJobCreated }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);

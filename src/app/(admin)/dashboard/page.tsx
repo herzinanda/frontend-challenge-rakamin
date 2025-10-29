@@ -16,7 +16,7 @@ export default function Home() {
   const { profile, loading: authLoading, isAdmin } = useAuth();
   const router = useRouter();
 
-  const [jobs, setJos] = useState<JobPosting[]>([]);
+  const [jobs, setJobs] = useState<JobPosting[]>([]);
   const [jobsLoading, setJobsLoading] = useState(true);
   const [jobsError, setJobsError] = useState<string | null>(null);
 

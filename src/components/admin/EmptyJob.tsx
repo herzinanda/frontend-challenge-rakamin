@@ -6,7 +6,11 @@ import Button from "../ui/Button";
 import Modal from "../ui/Modal";
 import { JobOpeningForm } from "./JobOpeningForm";
 
-const EmptyJob: React.FC = () => {
+interface EmptyJobProps {
+  onJobCreated: () => void;
+}
+
+const EmptyJob: React.FC<EmptyJobProps> = ({ onJobCreated }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);

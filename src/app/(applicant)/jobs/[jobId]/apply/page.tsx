@@ -29,7 +29,7 @@ const DOMICILE_OPTIONS = [
 ];
 
 export default function ApplyJobPage() {
-  const { profile, loading: authLoading } = useAuth();
+  const { profile, session, loading: authLoading } = useAuth();
   const router = useRouter();
   const params = useParams();
   const jobId = params?.jobId as string;
@@ -52,7 +52,7 @@ export default function ApplyJobPage() {
   }, [authLoading, profile, router]);
 
   useEffect(() => {
-    if (jobId && profile) {
+    if (jobId && profile && session) {
       const loadData = async () => {
         setLoading(true);
         setError(null);
@@ -69,8 +69,8 @@ export default function ApplyJobPage() {
           configResult.forEach(field => {
               if (field.id === 'full_name' && profile?.full_name) {
                   initialData[field.id] = profile.full_name;
-              } else if (field.id === 'email' && profile?.email) {
-                  initialData[field.id] = profile.email;
+              } else if (field.id === 'email' && session?.user?.email) {
+                  initialData[field.id] = session.user.email;
               }
               else {
                   initialData[field.id] = '';
@@ -88,7 +88,7 @@ export default function ApplyJobPage() {
       };
       loadData();
     }
-  }, [jobId, profile]);
+  }, [jobId, profile, session]);
 
   const handleFormChange = (name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }));

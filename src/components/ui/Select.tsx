@@ -20,7 +20,7 @@ interface SelectContextProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedOption: Option | null;
   setSelectedOption: React.Dispatch<React.SetStateAction<Option | null>>;
-  onChange: (value: string) => void;
+  onChange: (option: Option) => void;
   listboxId: string;
   labelId: string;
 }
@@ -31,6 +31,7 @@ interface SelectProps {
   onChange: (value: string) => void;
   placeholder?: string;
   labelId: string; // ID of the <Label> component for accessibility
+  disabled?: boolean;
 }
 
 const SelectContext = createContext<SelectContextProps | undefined>(undefined);
@@ -49,6 +50,7 @@ const Select = ({
   onChange,
   placeholder = "Select an option",
   labelId,
+  disabled = false,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(() => {
@@ -86,13 +88,15 @@ const Select = ({
 
   // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (disabled) return;
+
     switch (e.key) {
       case "Escape":
         setIsOpen(false);
         triggerRef.current?.focus();
         break;
       case "Enter":
-      case " ": // Space key
+      case " ":
         if (!isOpen) {
           e.preventDefault();
           setIsOpen(true);
@@ -171,19 +175,24 @@ const Select = ({
         ref={containerRef}
         onKeyDown={handleKeyDown}
       >
-        <SelectTrigger ref={triggerRef} placeholder={placeholder} />
+        <SelectTrigger
+          ref={triggerRef}
+          placeholder={placeholder}
+          disabled={disabled}
+        />
         <SelectList ref={listboxRef} options={options} highlightedIndex={highlightedIndex} />
       </div>
     </SelectContext.Provider>
-);
+  );
 };
 
 interface SelectTriggerProps {
   placeholder: string;
+  disabled?: boolean;
 }
 
 const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ placeholder }, ref) => {
+  ({ placeholder, disabled }, ref) => {
     const { isOpen, setIsOpen, selectedOption, listboxId, labelId } =
       useSelectContext();
 
@@ -197,8 +206,11 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
           focus:outline-none
           flex justify-between items-center text-m
           ${!selectedOption ? ' text-neutral-60' : ' text-neutral-90'}
+          ${disabled ? 'bg-neutral-20 cursor-not-allowed text-neutral-50' : ''}
         `}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => !disabled && setIsOpen((prev) => !prev)}
+        disabled={disabled}
+        aria-disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-labelledby={`${labelId} ${listboxId}-trigger-label`}
