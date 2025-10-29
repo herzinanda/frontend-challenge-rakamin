@@ -15,6 +15,7 @@ import {
   onAuthStateChange,
   UserProfile,
 } from "@/lib/authService";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   session: Session | null;
@@ -33,6 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchInitialSession = async () => {
@@ -57,10 +59,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const {
       data: { subscription: authListener },
-    } = onAuthStateChange((_event, session) => {
+    } = onAuthStateChange(async(authEvent, session) => {
       setSession(session);
 
-      if (session) {
+      if (authEvent === "SIGNED_IN" && session) {
+        const userProfile = await getUserProfile(session.user.id);
+        setProfile(userProfile);
+
+        // This is the new redirection logic
+        if (userProfile?.role === "ADMIN") {
+          router.push("/dashboard");
+        } else {
+          // Default redirect for APPLICANT or any other role
+          router.push("/");
+        }
+      } else if (authEvent === "SIGNED_OUT") {
+        setProfile(null);
+        // Optional: You might want to force a redirect to login on sign out
+        // router.push("/login");
+      } else if (session) {
         getUserProfile(session.user.id).then(setProfile);
       } else {
         setProfile(null);
@@ -70,7 +87,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       authListener?.unsubscribe();
     };
-  }, []);
+  }, [router]);
 
   const value = {
     session,

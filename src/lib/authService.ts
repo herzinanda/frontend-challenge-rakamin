@@ -3,6 +3,7 @@ import type {
   SignInWithPasswordCredentials,
   Session,
   Subscription,
+  AuthChangeEvent,
 } from "@supabase/supabase-js";
 
 export interface UserProfile {
@@ -78,7 +79,7 @@ export const getUserProfile = async (
 };
 
 export const onAuthStateChange = (
-  callback: (event: string, session: Session | null) => void
+  callback: (event: AuthChangeEvent, session: Session | null) => void
 ) => {
   const {
     data: { subscription },
