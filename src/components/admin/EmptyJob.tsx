@@ -1,7 +1,16 @@
-import Image from "next/image";
-import React from "react";
+"use client";
 
-function EmptyJob() {
+import Image from "next/image";
+import React, { useState } from "react";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import { JobOpeningForm } from "./JobOpeningForm";
+
+const EmptyJob: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
     <>
       <Image
@@ -18,11 +27,19 @@ function EmptyJob() {
           Create a job opening now and start the candidate process
         </p>
       </div>
-      <button className="bg-secondary-main text-l font-bold py-1.5 px-4 mt-4 rounded-lg">
+      <Button
+        variant="secondary"
+        size="large"
+        className="mt-4"
+        onClick={openModal}
+      >
         Create a new job
-      </button>
+      </Button>
+      <Modal isOpen={isModalOpen} onClose={closeModal} title="Create a New Job">
+        <JobOpeningForm onClose={closeModal} />
+      </Modal>
     </>
   );
-}
+};
 
 export default EmptyJob;
