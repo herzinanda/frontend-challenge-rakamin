@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hiring Management Web App — Frontend Challenge
 
-## Getting Started
+## 🔍 Project Overview
+A simplified Hiring Management Web App built using Next.js and Supabase.  
+This app allows recruiters to create and manage job vacancies while applicants can apply dynamically based on job configuration.
 
-First, run the development server:
+**Live Demo:** [https://frontend-challenge-rakamin.vercel.app/](https://frontend-challenge-rakamin.vercel.app/)
 
+**Admin Credentials (For Admin Page)**
+```markdown
+email: herzinanda31@gmail.com
+password: admin123
+```
+---
+
+## 🛠 Tech Stack Used
+- **Next.js v16 (App Router)**
+- **Supabase** — for database and authentication
+- **Tailwind CSS** — for modern and responsive UI
+- **React Hooks** — for state management
+- **Deployed on Vercel**
+
+---
+
+## ⚙️ How to Run Locally
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/herzinanda/frontend-challenge-rakamin.git
+cd frontend-challenge-rakamin
+bun install or npm install
+````
+
+Create `.env.local` and add:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://ntjemcyfdfuqtzfkvzsa.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50amVtY3lmZGZ1cXR6Zmt2enNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1NzA2NDYsImV4cCI6MjA3NzE0NjY0Nn0.dQ9J3VkDx4PmsU2hvgYDrN5F1RC_qOvhF4kbiyOx3vY
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then run:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Access the app at [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Key Features Implemented
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Admin can **create, view, and manage** job listings.
+* Dynamic form rendering for applicants based on admin configuration.
+* Webcam photo capture for applicant profile (simple).
+* Integration with Supabase for data persistence.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🚀 Optional Enhancements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Added **loading states and feedback** after applying for a job.
+* Improved **responsive layout** for mobile devices.
+* Used Supabase for real database functionality.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧠 Design or Logic Assumptions
+
+* Jobs are active by default when created.
+* UI improved for better mobile experience.
+
+---
+
+## ⚠️ Known Limitations
+
+* Hand gesture detection for webcam capture is not yet implemented due to time constraints.
+  I plan to continue this enhancement post-submission to improve real-time photo interaction.
+* AI-assisted tools were used minimally for syntax corrections and documentation generation only.
+
+---
+
+## 👨‍💻 Author
+
+**Herzinanda Putra**
+📧 [herzinanda31@gmail.com](mailto:herzinanda31@gmail.com)
